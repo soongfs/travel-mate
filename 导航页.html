@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>西湖景区导航 - TravelMate</title>
+    <script src="https://map.qq.com/api/gljs?v=1.exp&key=3HGBZ-SKRCT-UKNXT-V7KT6-T5LI2-XGF5F"></script>
+    <style>
+      /* :root {
+        --primary: #4caf50;
+        --secondary: #2196f3;
+        --accent: #ffc107;
+      } */
+
+      :root {
+        --primary-color: #4caf50;
+        --secondary-color: #2196f3;
+      }
+
+      /* * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      } */
+
+      /* body {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+      } */
+
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      .poi-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        max-width: 1600px;
+        margin: 0 auto;
+        height: 90vh;
+      }
+
+      .poi-header {
+        border-bottom: 2px solid #eee;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .poi-title {
+        color: var(--primary-color);
+        margin: 0;
+        font-size: 2.2rem;
+      }
+
+      /* 地图容器 */
+      #map-container {
+        height: 100vh;
+        position: relative;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      /* 导航控制面板 */
+      .nav-panel {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+
+      .nav-header {
+        margin-bottom: 2rem;
+      }
+
+      .nav-title {
+        color: var(--primary-color);
+        margin: 0;
+        font-size: 2.2rem;
+      }
+
+      .input-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      .nav-button {
+        width: 100%;
+        padding: 1rem;
+        background: #45a049;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .nav-button:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+      }
+
+      .route-info {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      /* 路径标记样式 */
+      .start-marker {
+        background-image: url("https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerDefault.png");
+        background-size: cover;
+        width: 30px;
+        height: 30px;
+      }
+
+      .end-marker {
+        background-image: url("https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerRed.png");
+        background-size: cover;
+        width: 30px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="poi-container">
+      <div id="map-container"></div>
+
+      <div class="nav-panel">
+        <div class="nav-header">
+          <h1 class="nav-title">西湖景区导航</h1>
+          <p>请设置您的起点和终点</p>
+        </div>
+
+        <div class="input-group">
+          <label>起点位置</label>
+          <input
+            type="text"
+            class="input-field"
+            value="北京邮电大学东门"
+            readonly
+          />
+        </div>
+
+        <div class="input-group">
+          <label>终点位置</label>
+          <input
+            type="text"
+            class="input-field"
+            value="北京邮电大学北门"
+            readonly
+          />
+        </div>
+
+        <button class="nav-button">开始导航</button>
+
+        <div class="route-info">
+          <h3>推荐路线信息</h3>
+          <p>🗺️ 总距离：1.2公里</p>
+          <p>⏱️ 预计时间：步行18分钟</p>
+          <p>🚩 途径：苏堤春晓、花港观鱼</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 初始化地图
+      const map = new TMap.Map(document.getElementById("map-container"), {
+        center: new TMap.LatLng(39.96, 116.36),
+        zoom: 16,
+        pitch: 30,
+        rotation: 0,
+      });
+
+      // 预定义路径坐标（示例数据）
+      const routePath = [
+        new TMap.LatLng(39.96241, 116.36101), // 起点
+        //new TMap.LatLng(30.232, 120.132),
+        new TMap.LatLng(39.96226, 116.35724),
+        new TMap.LatLng(39.965, 116.35706), // 终点
+      ];
+
+      // 绘制导航路径
+      new TMap.MultiPolyline({
+        map: map,
+        geometries: [
+          {
+            id: "demo-route",
+            styleId: "routeStyle",
+            paths: routePath,
+          },
+        ],
+        styles: {
+          routeStyle: new TMap.PolylineStyle({
+            color: "#4CAF50",
+            width: 6,
+            borderWidth: 2,
+            borderColor: "#FFFFFF",
+          }),
+        },
+      });
+
+      // 添加起点终点标记
+      new TMap.MultiMarker({
+        map: map,
+        geometries: [
+          {
+            id: "start",
+            position: routePath[0],
+            styleId: "startMarker",
+            content: "起点",
+          },
+          {
+            id: "end",
+            position: routePath[routePath.length - 1],
+            styleId: "endMarker",
+            content: "终点",
+          },
+        ],
+        styles: {
+          startMarker: new TMap.MarkerStyle({
+            width: 34,
+            height: 34,
+            anchor: { x: 15, y: 30 },
+            src: "https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerDefault.png",
+          }),
+          endMarker: new TMap.MarkerStyle({
+            width: 34,
+            height: 34,
+            anchor: { x: 15, y: 30 },
+            src: "https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerRed.png",
+          }),
+        },
+      });
+    </script>
+  </body>
+</html>
