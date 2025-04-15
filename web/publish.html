@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>发布新日记 - TravelMate</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2a9d8f;
+        --secondary: #264653;
+        --border: #e0e0e0;
+        --bg: #f8f9fa;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", "PingFang SC", sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+      }
+
+      .editor-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+
+      /* 标题区域 */
+      .title-section {
+        margin-bottom: 2rem;
+      }
+
+      .title-input {
+        width: 100%;
+        font-size: 2rem;
+        border: none;
+        padding: 1rem;
+        font-weight: 600;
+        color: var(--secondary);
+      }
+
+      .title-input::placeholder {
+        color: #999;
+      }
+
+      /* 工具栏 */
+      .toolbar {
+        display: flex;
+        gap: 0.5rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .tool-btn {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .tool-btn:hover {
+        background: var(--bg);
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      /* 编辑区域 */
+      .editor-content {
+        min-height: 400px;
+        padding: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        margin-bottom: 2rem;
+      }
+
+      .editor-content:focus {
+        outline: 2px solid var(--primary);
+      }
+
+      /* 附加功能 */
+      .upload-section {
+        margin-bottom: 2rem;
+      }
+
+      .upload-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.5rem;
+        background: var(--bg);
+        border: 1px dashed var(--border);
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .upload-btn:hover {
+        border-color: var(--primary);
+      }
+
+      /* 设置区域 */
+      .settings-section {
+        border-top: 1px solid var(--border);
+        padding-top: 2rem;
+      }
+
+      .setting-item {
+        margin-bottom: 1.5rem;
+      }
+
+      .setting-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .tag-input {
+        padding: 0.5rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        width: 300px;
+      }
+
+      .tag-hint {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+
+      /* 发布按钮 */
+      .publish-btns {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn-secondary {
+        background: var(--bg);
+        color: var(--secondary);
+        padding: 0.8rem 2rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="editor-container">
+      <!-- 标题 -->
+      <div class="title-section">
+        <input
+          type="text"
+          class="title-input"
+          placeholder="请输入日记标题（最多50字）"
+        />
+      </div>
+
+      <!-- 富文本工具栏 -->
+      <div class="toolbar">
+        <button class="tool-btn" title="加粗">
+          <i class="fas fa-bold"></i>
+        </button>
+        <button class="tool-btn" title="斜体">
+          <i class="fas fa-italic"></i>
+        </button>
+        <button class="tool-btn" title="标题">
+          <i class="fas fa-heading"></i>
+        </button>
+        <button class="tool-btn" title="插入图片">
+          <i class="fas fa-image"></i>
+        </button>
+        <button class="tool-btn" title="插入视频">
+          <i class="fas fa-video"></i>
+        </button>
+        <button class="tool-btn" title="有序列表">
+          <i class="fas fa-list-ol"></i>
+        </button>
+        <button class="tool-btn" title="无序列表">
+          <i class="fas fa-list-ul"></i>
+        </button>
+        <button class="tool-btn" title="引用">
+          <i class="fas fa-quote-right"></i>
+        </button>
+      </div>
+
+      <!-- 内容编辑区 -->
+      <div class="editor-content" contenteditable="true">
+        <p>从这里开始书写你的旅行故事...</p>
+      </div>
+
+      <!-- 图片上传 -->
+      <div class="upload-section">
+        <label class="upload-btn">
+          <i class="fas fa-cloud-upload-alt"></i>
+          上传图片/视频
+          <input type="file" hidden multiple accept="image/*,video/*" />
+        </label>
+      </div>
+
+      <!-- 设置区域 -->
+      <div class="settings-section">
+        <div class="setting-item">
+          <label class="setting-label">添加标签（最多5个）</label>
+          <input
+            type="text"
+            class="tag-input"
+            placeholder="输入标签，用逗号分隔"
+          />
+          <div class="tag-hint">例如：西藏旅行, 自驾游, 摄影攻略</div>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">发布设置</label>
+          <div style="display: flex; gap: 2rem">
+            <label> <input type="checkbox" /> 允许评论 </label>
+            <label> <input type="checkbox" /> 同步到个人主页 </label>
+            <label> <input type="checkbox" /> 仅粉丝可见 </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="publish-btns">
+        <button class="btn-primary">立即发布</button>
+        <button class="btn-secondary">保存草稿</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelMate - 用户信息</title>
+    <style>
+      /* 新增优化样式 */
+      .profile-section {
+        margin-top: 120px;
+      }
+
+      .profile-header {
+        position: relative;
+        padding: 3rem;
+        background: linear-gradient(
+          135deg,
+          rgba(42, 157, 143, 0.1),
+          rgba(233, 196, 106, 0.05)
+        );
+        border: 1px solid rgba(42, 157, 143, 0.15);
+      }
+
+      .avatar-wrapper:hover .edit-button {
+        transform: translateY(-2px) scale(1.05);
+      }
+
+      .profile-avatar {
+        border: 4px solid white;
+        box-shadow: 0 8px 24px rgba(38, 70, 83, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .profile-avatar:hover {
+        transform: rotate(5deg) scale(1.02);
+      }
+
+      .profile-name {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.5rem;
+      }
+
+      .profile-name::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60%;
+        height: 3px;
+        background: var(--accent);
+      }
+
+      .profile-stats {
+        padding: 1.5rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+      }
+
+      .stat-item {
+        padding: 0 1.5rem;
+        position: relative;
+      }
+
+      .stat-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 30px;
+        width: 1px;
+        background: var(--border);
+      }
+
+      .stat-number {
+        font-size: 1.6rem;
+        position: relative;
+        padding-left: 28px;
+      }
+
+      .stat-number::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-size: 1.8em;
+        top: -0.1em;
+      }
+
+      .profile-bio {
+        position: relative;
+        padding: 2rem;
+        background: white;
+        border-left: 4px solid var(--accent);
+        box-shadow: var(--shadow);
+      }
+
+      .profile-bio::before {
+        content: "“";
+        position: absolute;
+        left: 1rem;
+        top: -0.5rem;
+        font-size: 4rem;
+        color: rgba(42, 157, 143, 0.15);
+      }
+
+      .badge-collection {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+
+      .badge {
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        background: rgba(233, 196, 106, 0.15);
+        color: var(--secondary);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .badge i {
+        color: var(--accent);
+      }
+
+      .diary-card .card-content {
+        padding: 1.2rem;
+      }
+
+      .diary-card h3 {
+        font-size: 1.1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* 新增交互效果 */
+      .edit-button:hover {
+        background: #e76f51;
+        box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3);
+      }
+
+      .badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .profile-header {
+          padding: 2rem;
+        }
+
+        .stat-item {
+          padding: 0 1rem;
+        }
+
+        .stat-number {
+          font-size: 1.2rem;
+          padding-left: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="global-nav">
+      <a href="index.html" class="logo">✈️ TravelMate</a>
+      <div class="nav-links">
+        <a href="#recommend">推荐</a>
+        <a href="#plan">规划</a>
+        <a href="#diary">日记</a>
+      </div>
+      <div class="user-avatar">👤</div>
+    </nav>
+
+    <!-- 用户信息主体 -->
+    <main class="profile-section">
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <img
+            src="images/avatar-demo.jpg"
+            class="profile-avatar"
+            alt="用户头像"
+          />
+          <button class="edit-button">
+            <i class="fas fa-edit"></i> 编辑资料
+          </button>
+        </div>
+
+        <div class="profile-info">
+          <h1 class="profile-name">旅行达人小王</h1>
+
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-number">1.8k</div>
+              <div class="stat-label">粉丝</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">356</div>
+              <div class="stat-label">关注</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">28</div>
+              <div class="stat-label">日记</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">4.9</div>
+              <div class="stat-label">评分</div>
+            </div>
+          </div>
+
+          <div class="badge-collection">
+            <div class="badge">
+              <i class="fas fa-globe-asia"></i>
+              环球旅行者
+            </div>
+            <div class="badge">
+              <i class="fas fa-camera"></i>
+              摄影达人
+            </div>
+            <div class="badge">
+              <i class="fas fa-medal"></i>
+              年度创作者
+            </div>
+          </div>
+
+          <div class="profile-bio">
+            🌟 平台认证旅行家 | 📅 加入3年<br />
+            🏆 连续12个月优质内容创作者<br />
+            📍 当前位置：大理古城<br />
+            ✈️ 下一个目的地：冰岛雷克雅未克
+          </div>
+        </div>
+      </div>
+
+      <!-- 用户日记 -->
+      <div class="user-diaries">
+        <h2 class="section-title">最新游记（28篇）</h2>
+        <div class="content-grid">
+          <!-- 优化后的日记卡片 -->
+          <article class="diary-card">
+            <div
+              class="card-image"
+              style="background-image: url('images/diary1.jpg')"
+            >
+              <span class="card-badge">🔥 热门精选</span>
+              <div class="card-overlay">
+                <span class="overlay-text">📅 2024-03-15 | 📍 杭州</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <h3>西湖漫步全记录 | 昼赏荷影摇曳 夜品灯月交辉的宋韵时光</h3>
+              <div class="stats">
+                <span>❤️ 1.2k</span>
+                <span>📖 5.6k浏览</span>
+                <span>⭐ 4.8</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- 更多日记卡片... -->
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
